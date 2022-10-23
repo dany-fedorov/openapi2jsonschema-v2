@@ -127,10 +127,13 @@ def default(output, schema, prefix, stand_alone, expanded, kubernetes, strict):
         components = data["components"]["schemas"]
 
     for title in components:
-        kind = title.split(".")[-1].lower()
+        # kind = title.split(".")[-1].lower()
+        kind = title.split(".")[-1]
         if kubernetes:
-            group = title.split(".")[-3].lower()
-            api_version = title.split(".")[-2].lower()
+            # group = title.split(".")[-3].lower()
+            group = title.split(".")[-3]
+            # api_version = title.split(".")[-2].lower()
+            api_version = title.split(".")[-2]
         specification = components[title]
         specification["$schema"] = "http://json-schema.org/schema#"
         specification.setdefault("type", "object")
@@ -162,20 +165,20 @@ def default(output, schema, prefix, stand_alone, expanded, kubernetes, strict):
             # This list of Kubernetes types carry around jsonschema for Kubernetes and don't
             # currently work with openapi2jsonschema
             if (
-                kubernetes
-                and stand_alone
-                and kind
-                in [
-                    "jsonschemaprops",
-                    "jsonschemapropsorarray",
-                    "customresourcevalidation",
-                    "customresourcedefinition",
-                    "customresourcedefinitionspec",
-                    "customresourcedefinitionlist",
-                    "customresourcedefinitionspec",
-                    "jsonschemapropsorstringarray",
-                    "jsonschemapropsorbool",
-                ]
+                    kubernetes
+                    and stand_alone
+                    and kind
+                    in [
+                "jsonschemaprops",
+                "jsonschemapropsorarray",
+                "customresourcevalidation",
+                "customresourcedefinition",
+                "customresourcedefinitionspec",
+                "customresourcedefinitionlist",
+                "customresourcedefinitionspec",
+                "jsonschemapropsorstringarray",
+                "jsonschemapropsorbool",
+            ]
             ):
                 raise UnsupportedError("%s not currently supported" % kind)
 
