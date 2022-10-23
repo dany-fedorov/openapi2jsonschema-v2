@@ -1,3 +1,25 @@
+# (Fork notes) Fork changes
+
+1. Updated dependencies
+2. Nothing is lowercased
+
+# (Fork notes) How I use it
+
+I put it into backend monorepo where API tests are also stored.
+Also might be helpful if you're new to python.
+
+1. mkdir -p openapi2jsonschema && cd openapi2jsonschema
+2. degit https://github.com/dany-fedorov/openapi2jsonschema-v2.git
+3. poetry install
+4. $(poetry env info -p)/bin/python3 ./openapi2jsonschema/command.py http://localhost:3002/api-json
+5. Then in js code I do
+```typescript
+import $RefParser from '@apidevtools/json-schema-ref-parser';
+import v, { ValidatorResult } from 'jsonschema';
+const schema = await $RefParser.dereference('./schemas/' + schemaName + '.json');
+v.validate(response.data, schema);
+```
+
 # openapi2jsonschema
 
 A utility to extract [JSON Schema](http://json-schema.org/) from a
